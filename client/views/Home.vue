@@ -2,17 +2,20 @@
   <div class="page">
     <folder-list></folder-list>
     <file-list></file-list>
+    <editor></editor>
   </div>
 </template>
 
 <script>
 import FolderList from '../components/FolderList'
 import FileList from '../components/FileList'
+import Editor from '../components/Editor'
 
 export default {
   components: {
     FolderList,
-    FileList
+    FileList,
+    Editor,
   }
 }
 </script>
@@ -24,7 +27,6 @@ export default {
   background: #fff;
   display: flex;
   align-items: stretch;
-  font-family: monospace;
 }
 </style>
 

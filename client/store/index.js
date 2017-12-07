@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import folder from './folder'
+import folders from './folders'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    folder
+    folders
   }
 })
 

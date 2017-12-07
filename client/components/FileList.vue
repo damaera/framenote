@@ -1,12 +1,7 @@
 <template>
   <div class="file-container">
     <div>
-      <button @click="addFolder()">add folder</button>
-      <div v-for="item in lists">
-        <div class="folder-item">
-          <b>{{ item.name }}</b>
-        </div>
-      </div>
+      Test
     </div>
   </div>
 </template>
@@ -15,23 +10,18 @@
 export default {
   computed: {
     lists () {
-      return this.$store.state.folder.lists
+      return this.$store.state.files.lists
     }
   },
-  methods: {
-    addFolder () {
-      // $store.commit('folder/ADD', 'folder')
-      // this.$store.state.folder.lists
-    }
-  }
+  methods: {}
 }
 </script>
 
 <style>
 .file-container {
   width: 240px;
-  background: #f6f6f6;
-
+  background: #F8FAFC;
+  border-right: solid 1px rgba(0,0,0, .05);
 }
 
 .file-input {
@@ -40,7 +30,7 @@ export default {
 
 .file-item {
   padding: 10px;
-  border-top: solid 1px #ddd;
+  border-top: solid 1px rgba(0,0,0, .05);
   cursor: pointer;
 }
 </style>

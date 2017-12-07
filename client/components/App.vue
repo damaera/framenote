@@ -7,7 +7,8 @@
 <style>
 body {
   margin: 0;
-  font-size: 12px;
-  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  color: #414a51;
+  font-family: 'Ubuntu mono', monospace;
 }
 </style>

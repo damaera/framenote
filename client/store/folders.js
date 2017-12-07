@@ -4,12 +4,16 @@ const state = {
       name: 'folder 1',
       selected: false
     }
-  ]
+  ],
+  addClicked: false
 }
 
 const mutations = {
-  ADD (state, payload) {
+  ADD_FOLDER (state, payload) {
     state.lists.push(payload)
+  },
+  TOGGLE_ADD_CLICKED (state) {
+    state.addClicked = !state.addClicked
   }
 }
 
