@@ -1,19 +1,44 @@
+import shortid from 'shortid'
+
+const newId1 = 'folder1'
+const newId2 = 'asdqwe1'
+
 const state = {
-  lists: [
-    {
-      name: 'folder 1',
-      selected: false
+  lists: {
+    [newId1]: {
+      name: 'Folder1',
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    },
+    [newId2]: {
+      name: 'Folder2',
+      createdAt: Date.now(),
+      updatedAt: Date.now()
     }
-  ],
-  addClicked: false
+  },
+  selected: newId1
 }
 
 const mutations = {
-  ADD_FOLDER (state, payload) {
-    state.lists.push(payload)
+  CREATE (state, { name }) {
+    const now = Date.now()
+    state.lists[shortid.generate()] = {
+      name,
+      createdAt: now,
+      updatedAt: now
+    }
   },
-  TOGGLE_ADD_CLICKED (state) {
-    state.addClicked = !state.addClicked
+  RENAME (state, { id, newName }) {
+    state.lists[id].name = newName
+  },
+  DELETE (state, { id }) {
+    delete state.lists[id]
+  },
+  SELECT (state, { id }) {
+    state.selected = id
+  },
+  UNSELECT (state) {
+    state.selected = null
   }
 }
 

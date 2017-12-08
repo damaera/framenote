@@ -10,5 +10,9 @@ body {
   font-size: 14px;
   color: #414a51;
   font-family: 'Ubuntu mono', monospace;
+
+  * {
+    transition: all .1s;
+  }
 }
 </style>

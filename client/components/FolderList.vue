@@ -1,13 +1,20 @@
 <template>
-  <div class="folder-container">
+  <div
+    class="folder-container"
+    @click="clickOutside"
+  >
     <div class="folder-header">
-      Framenote.
+      ./FOLDERS/
     </div>
     <div>
-      <div v-for="(item, index) in lists" :key="index">
-        <div class="folder-item">
+      <div v-for="(value, id) in lists" :key="id">
+        <div
+          class="folder-item"
+          :class="{ selected: id === selected }"
+          @click="(e) => folderClick(id)"
+        >
           <div class="folder-item-title">
-            {{ item.name }}
+            {{ value.name }}
           </div>
           <div class="folder-item-desc">
             0 files
@@ -15,22 +22,27 @@
         </div>
       </div>
 
-      <div class="folder-add" v-if="addClicked">
-        <form @submit="submitAdd">
-          <input
-            type="text"
-            class="folder-add-input"
-            @blur="$store.commit('folders/TOGGLE_ADD_CLICKED')"
-          >
-          <input type="submit">
-        </form>
+      <div
+        v-if="!newFolderClicked"
+        class="folder-add"
+        @click="toggleClick"
+      >
+        + New folder
       </div>
       <div
-        class="folder-add"
-        v-if="!addClicked"
-        @click="$store.commit('folders/TOGGLE_ADD_CLICKED')"
+        v-if="newFolderClicked"
+        class="folder-add-input"
       >
-        + Add folder
+        <form @submit="submitNewFolder">
+          <input
+            type="text"
+            @blur="newFolderBlur"
+            placeholder="Folder Name..."
+            ref="inputFolder"
+            v-model="newFolderName"
+          >
+          <input type="submit" class="input-submit">
+        </form>
       </div>
     </div>
   </div>
@@ -38,18 +50,49 @@
 
 <script>
 export default {
+  data: () => {
+    return {
+      newFolderClicked: false,
+      newFolderName: '',
+    }
+  },
   computed: {
     lists () {
       return this.$store.state.folders.lists
     },
-    addClicked () {
-      return this.$store.state.folders.addClicked
-    }
+    selected () {
+      return this.$store.state.folders.selected
+    },
+    anyFileSelected () {
+      const { selected } = this.$store.state.files
+      return !!selected
+    },
   },
   methods: {
-    submitAdd (e) {
+    submitNewFolder (e) {
       e.preventDefault();
-      
+      this.$store.commit('folders/CREATE', { name: this.newFolderName })
+      this.newFolderName = ''
+    },
+    toggleClick () {
+      this.newFolderClicked = !this.newFolderClicked
+      if (this.newFolderClicked === true) {
+        setTimeout(() => {
+          this.$refs.inputFolder.focus()
+        }, 100);
+      }
+    },
+    folderClick (id) {
+      this.$store.commit('folders/SELECT', { id })
+    },
+    newFolderBlur () {
+      this.toggleClick()
+      this.newFolderName = ''
+    },
+    clickOutside (e) {
+      if (e.target.classList.contains('folder-container')) {
+        // this.$store.commit('folders/UNSELECT')
+      }
     }
   }
 }
@@ -68,21 +111,39 @@ export default {
 }
 
 .folder-add-input {
-  background: none;
-  border: none;
-  outline: none;
+  border-bottom: solid 2px #0099cc;
+  padding: 20px 10px;
   font-size: 1em;
-  font-family: inherit;
-  border-bottom: solid 1px #0099cc;
-  padding: 10px 0;
+  input {
+    background: none;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: bold;
+  }
+  &:hover {
+    opacity: .8;
+    background: #F8FAFC;
+  }
+}
+
+.input-submit {
+  display: none;
 }
 
 .folder-add {
   padding: 20px 10px;
-  border-bottom: solid 1px rgba(0,0,0, .05);
+  border-bottom: solid 2px rgba(0,0,0, .05);
   font-weight: bold;
   color: #0099cc;
   cursor: pointer;
+  &:hover {
+    opacity: .8;
+    background: #F8FAFC;
+  }
 }
 
 .folder-item {
@@ -90,8 +151,13 @@ export default {
   cursor: pointer;
   border-bottom: solid 1px rgba(0,0,0, .05);
   &:hover {
-    opacity: .8;
-    box-shadow: 0 0 1px #0099CC;
+    /* opacity: .8; */
+    background: #F8FAFC;
+  }
+  &.selected {
+    /* box-shadow: 0 0 1px #0099CC; */
+    background: #ffffff;
+    color: #E46D69;
   }
 }
 .folder-item-title {

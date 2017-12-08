@@ -4,6 +4,8 @@
       <textarea
         class="editor-textarea"
         placeholder="start writing..."
+        @change="onChange"
+        v-model="contentOfSelected"
       >
       </textarea>
     </div>
@@ -12,9 +14,30 @@
 
 <script>
 export default {
-  data: {
-
+  data () {
+    return {
+      // content: ''
+    }
   },
+  computed: {
+    contentOfSelected: {
+      get () {
+        const { lists, selected } = this.$store.state.files
+        return lists[selected].content
+      },
+      set (newValue) {
+        this.$store.commit('files/CHANGE_CONTENT', {
+          id: this.$store.state.files.selected,
+          content: newValue
+        })
+      }
+    }
+  },
+  methods: {
+    onChange (e) {
+      console.log(this.contentOfSelected)
+    }
+  }
 }
 </script>
 
@@ -40,7 +63,7 @@ textarea {
   min-height: 100vh;
   max-height: 100vh;
   margin: 0;
-  padding: 30px 50px;
+  padding: 100px 50px 30px 50px; 
   resize: none;
 }
 </style>
