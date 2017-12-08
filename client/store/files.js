@@ -29,6 +29,9 @@ const mutations = {
   },
   CHANGE_CONTENT (state, { id, content }) {
     state.lists[id].content = content
+  },
+  CHANGE_TITLE (state, { id, name }) {
+    state.lists[id].name = name
   }
 }
 

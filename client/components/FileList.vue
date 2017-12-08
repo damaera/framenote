@@ -12,17 +12,17 @@
     <div
       v-for="(v, id) of fileListsSelected"
       :key="id"
-      v-if="v.folder === $store.state.folders.selected">
+      v-if="v.folder === selected">
       <div
-        class="folder-item"
+        class="file-item"
         :class="{ selected: id === fileSelected }"
         @click="() => fileClick(id)"
       >
         <div class="folder-item-title">
-          {{ v.name }}
+          {{ v.name || 'Untitled' }}
         </div>
         <div class="folder-item-desc">
-          0 characters
+          {{ v.content || 'No content' }}
         </div>
       </div>
     </div>
@@ -62,6 +62,9 @@ export default {
     }
   },
   computed: {
+    selected () {
+      return this.$store.state.folders.selected
+    },
     anyFolderSelected () {
       const { selected } = this.$store.state.folders
       return !!selected
@@ -107,10 +110,13 @@ export default {
   width: 240px;
   background: #F8FAFC;
   border-right: solid 1px rgba(0,0,0, .05);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .file-header {
-  padding: 20px 10px;
+  padding: 15px 10px;
   border-bottom: solid 1px rgba(0,0,0, .05);
   font-weight: bold;
 }
@@ -120,16 +126,17 @@ export default {
 }
 
 .file-item {
-  padding: 20px 10px;
+  padding: 15px 10px;
   cursor: pointer;
   border-bottom: solid 1px rgba(0,0,0, .05);
   &:hover {
     /* opacity: .8; */
-    background: #F8FAFC;
+    background: #ffffff;
   }
   &.selected {
     /* box-shadow: 0 0 1px #0099CC; */
     background: #ffffff;
+    color: #E46D69;
   }
 }
 </style>

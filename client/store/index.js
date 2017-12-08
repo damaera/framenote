@@ -8,7 +8,7 @@ import files from './files'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  // plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
   modules: {
     folders,
     files

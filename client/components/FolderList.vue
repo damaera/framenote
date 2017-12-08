@@ -16,9 +16,6 @@
           <div class="folder-item-title">
             {{ value.name }}
           </div>
-          <div class="folder-item-desc">
-            0 files
-          </div>
         </div>
       </div>
 
@@ -76,11 +73,11 @@ export default {
     },
     toggleClick () {
       this.newFolderClicked = !this.newFolderClicked
-      if (this.newFolderClicked === true) {
-        setTimeout(() => {
+      this.$nextTick(() => {
+        if (this.newFolderClicked === true) {
           this.$refs.inputFolder.focus()
-        }, 100);
-      }
+        }
+      })
     },
     folderClick (id) {
       this.$store.commit('folders/SELECT', { id })
@@ -106,13 +103,13 @@ export default {
 }
 
 .folder-header {
-  padding: 20px 10px;
+  padding: 15px 10px;
   border-bottom: solid 1px rgba(0,0,0, .05);
 }
 
 .folder-add-input {
   border-bottom: solid 2px #0099cc;
-  padding: 20px 10px;
+  padding: 15px 10px;
   font-size: 1em;
   input {
     background: none;
@@ -135,7 +132,7 @@ export default {
 }
 
 .folder-add {
-  padding: 20px 10px;
+  padding: 15px 10px;
   border-bottom: solid 2px rgba(0,0,0, .05);
   font-weight: bold;
   color: #0099cc;
@@ -147,7 +144,7 @@ export default {
 }
 
 .folder-item {
-  padding: 20px 10px;
+  padding: 15px 10px;
   cursor: pointer;
   border-bottom: solid 1px rgba(0,0,0, .05);
   &:hover {
@@ -156,7 +153,7 @@ export default {
   }
   &.selected {
     /* box-shadow: 0 0 1px #0099CC; */
-    background: #ffffff;
+    background: #F8FAFC;
     color: #E46D69;
   }
 }
