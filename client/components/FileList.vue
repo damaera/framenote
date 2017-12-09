@@ -97,6 +97,9 @@ export default {
         folder: this.$store.state.folders.selected
       })
       this.newFileName = ''
+      this.$nextTick(() => {
+        this.$store.commit('files/SELECT')
+      })
     },
     fileClick (id) {
       this.$store.commit('files/SELECT', { id })

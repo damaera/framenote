@@ -55,7 +55,8 @@ export default {
   },
   computed: {
     lists () {
-      return this.$store.state.folders.lists
+      const folderLists = this.$store.state.folders.lists
+      return folderLists
     },
     selected () {
       return this.$store.state.folders.selected
@@ -69,7 +70,11 @@ export default {
     submitNewFolder (e) {
       e.preventDefault();
       this.$store.commit('folders/CREATE', { name: this.newFolderName })
-      this.newFolderName = ''
+      this.$nextTick(() => {
+        console.log(11111)
+        this.newFolderName = ''
+        this.newFolderClicked = false
+      })
     },
     toggleClick () {
       this.newFolderClicked = !this.newFolderClicked

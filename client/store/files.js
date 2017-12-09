@@ -16,13 +16,16 @@ const state = {
 const mutations = {
   CREATE (state, { name, folder }) {
     const now = Date.now()
-    state.lists[shortid.generate()] = {
-      name,
-      folder,
-      createdAt: now,
-      updatedAt: now,
-      content: ''
+    const newFile = {
+      [shortid.generate()]: {
+        name,
+        folder,
+        createdAt: now,
+        updatedAt: now,
+        content: ''
+      }
     }
+    state.lists = { ...state.lists, ...newFile }
   },
   SELECT (state, { id }) {
     state.selected = id

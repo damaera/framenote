@@ -22,11 +22,14 @@ const state = {
 const mutations = {
   CREATE (state, { name }) {
     const now = Date.now()
-    state.lists[shortid.generate()] = {
-      name,
-      createdAt: now,
-      updatedAt: now
+    const newFolder = {
+      [shortid.generate()]: {
+        name,
+        createdAt: now,
+        updatedAt: now
+      }
     }
+    state.lists = { ...state.lists, ...newFolder }
   },
   RENAME (state, { id, newName }) {
     state.lists[id].name = newName
