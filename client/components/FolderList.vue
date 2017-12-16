@@ -4,17 +4,20 @@
     @click="clickOutside"
   >
     <div class="folder-header">
-      ./FOLDERS/
+      Folder
     </div>
     <div>
-      <div v-for="(value, id) in lists" :key="id">
+      <div
+        v-for="(value, id) in lists"
+        :key="id"
+      >
         <div
           class="folder-item"
           :class="{ selected: id === selected }"
           @click="(e) => folderClick(id)"
         >
           <div class="folder-item-title">
-            {{ value.name }}
+            {{ selected === id ? '🗁' : '🖿' }} {{ value.name }}
           </div>
         </div>
       </div>
@@ -38,7 +41,10 @@
             ref="inputFolder"
             v-model="newFolderName"
           >
-          <input type="submit" class="input-submit">
+          <input
+            type="submit"
+            class="input-submit"
+          >
         </form>
       </div>
     </div>
@@ -71,16 +77,18 @@ export default {
       e.preventDefault();
       this.$store.commit('folders/CREATE', { name: this.newFolderName })
       this.$nextTick(() => {
-        console.log(11111)
-        this.newFolderName = ''
         this.newFolderClicked = false
       })
+      this.toggleClick()
+      this.$store.commit('folders/SELECT', { id: true })
     },
     toggleClick () {
       this.newFolderClicked = !this.newFolderClicked
       this.$nextTick(() => {
         if (this.newFolderClicked === true) {
           this.$refs.inputFolder.focus()
+        } else {
+          this.$refs.inputFolder.blur()
         }
       })
     },
@@ -93,7 +101,8 @@ export default {
     },
     clickOutside (e) {
       if (e.target.classList.contains('folder-container')) {
-        // this.$store.commit('folders/UNSELECT')
+        this.$store.commit('folders/UNSELECT')
+        this.$store.commit('files/UNSELECT')
       }
     }
   }
@@ -102,7 +111,8 @@ export default {
 
 <style>
 .folder-container {
-  width: 240px;
+  max-width: 240px;
+  min-width: 200px;
   background: #F1F4F9;
   border-right: solid 1px rgba(0,0,0, .05);
 }

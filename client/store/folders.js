@@ -1,29 +1,35 @@
 import shortid from 'shortid'
 
-const newId1 = 'folder1'
-const newId2 = 'asdqwe1'
+// const newId1 = 'folder1'
+// const newId2 = 'asdqwe1'
 
 const state = {
-  lists: {
-    [newId1]: {
-      name: 'Folder1',
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    },
-    [newId2]: {
-      name: 'Folder2',
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    }
-  },
-  selected: newId1
+  // lists: {
+  //   [newId1]: {
+  //     name: 'Folder1',
+  //     createdAt: Date.now(),
+  //     updatedAt: Date.now()
+  //   },
+  //   [newId2]: {
+  //     name: 'Folder2',
+  //     createdAt: Date.now(),
+  //     updatedAt: Date.now()
+  //   }
+  // },
+  // selected: newId1
+  lists: {},
+  selected: null
 }
+
+let lastId = null
 
 const mutations = {
   CREATE (state, { name }) {
     const now = Date.now()
+    const newId = shortid.generate()
+    lastId = newId
     const newFolder = {
-      [shortid.generate()]: {
+      [newId]: {
         name,
         createdAt: now,
         updatedAt: now
@@ -38,7 +44,11 @@ const mutations = {
     delete state.lists[id]
   },
   SELECT (state, { id }) {
-    state.selected = id
+    if (id === true) {
+      state.selected = lastId
+    } else {
+      state.selected = id
+    }
   },
   UNSELECT (state) {
     state.selected = null

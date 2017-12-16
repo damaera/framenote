@@ -2,6 +2,7 @@
   <div
     class="file-container"
     v-if="anyFolderSelected"
+    @click="clickOutside"
   >
     <!-- header -->
     <div class="file-header">
@@ -19,7 +20,7 @@
         @click="() => fileClick(id)"
       >
         <div class="folder-item-title">
-          {{ v.name || 'Untitled' }}
+          🗎 {{ v.name || 'Untitled' }}
         </div>
         <div class="folder-item-desc">
           {{ v.content || 'No content' }}
@@ -29,25 +30,28 @@
 
     <!-- input -->
     <div
-      v-if="!addClicked"
+      v-if="!newFileClicked"
       class="folder-add"
       @click="toggleClick"
     >
       + New file
     </div>
     <div
-      v-if="addClicked"
+      v-if="newFileClicked"
       class="folder-add-input"
     >
       <form @submit="submitNewFile">
         <input
           type="text"
-          @blur="toggleClick"
+          @blur="newFileBlur"
           placeholder="File Name..."
-          ref="inputFolder"
+          ref="inputFile"
           v-model="newFileName"
         >
-        <input type="submit" class="input-submit">
+        <input
+          type="submit"
+          class="input-submit"
+        >
       </form>
     </div>
   </div>
@@ -57,7 +61,7 @@
 export default {
   data () {
     return {
-      addClicked: false,
+      newFileClicked: false,
       newFileName: '',
     }
   },
@@ -83,12 +87,14 @@ export default {
   },
   methods: {
     toggleClick () {
-      this.addClicked = !this.addClicked
-      if (this.addClicked === true) {
-        setTimeout(() => {
-          this.$refs.inputFolder.focus()
-        }, 100);
-      }
+      this.newFileClicked = !this.newFileClicked
+      this.$nextTick(() => {
+        if (this.newFileClicked === true) {
+          this.$refs.inputFile.focus()
+        } else {
+          this.$refs.inputFile.blur()
+        }
+      })
     },
     submitNewFile (e) {
       e.preventDefault()
@@ -96,13 +102,23 @@ export default {
         name: this.newFileName,
         folder: this.$store.state.folders.selected
       })
-      this.newFileName = ''
       this.$nextTick(() => {
-        this.$store.commit('files/SELECT')
+        this.newFileClicked = false
       })
+      this.toggleClick()
+      this.$store.commit('files/SELECT', { id: true })
     },
     fileClick (id) {
       this.$store.commit('files/SELECT', { id })
+    },
+    clickOutside (e) {
+      if (e.target.classList.contains('file-container')) {
+        this.$store.commit('files/UNSELECT')
+      }
+    },
+    newFileBlur () {
+      this.toggleClick()
+      this.newFileName = ''
     },
   }
 }
@@ -110,11 +126,13 @@ export default {
 
 <style>
 .file-container {
-  width: 240px;
+  max-width: 240px;
+  min-width: 200px;
   background: #F8FAFC;
   border-right: solid 1px rgba(0,0,0, .05);
   white-space: nowrap;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   text-overflow: ellipsis;
 }
 

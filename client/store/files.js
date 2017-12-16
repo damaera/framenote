@@ -1,23 +1,29 @@
 import shortid from 'shortid'
 
 const state = {
-  lists: {
-    asdqwe1: {
-      name: 'File1',
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      content: '',
-      folder: 'folder1'
-    }
-  },
-  selected: 'asdqwe1'
+  // lists: {
+  //   asdqwe1: {
+  //     name: 'File1',
+  //     createdAt: Date.now(),
+  //     updatedAt: Date.now(),
+  //     content: '',
+  //     folder: 'folder1'
+  //   }
+  // },
+  // selected: 'asdqwe1'
+  lists: {},
+  selected: null,
 }
+
+let lastId = null
 
 const mutations = {
   CREATE (state, { name, folder }) {
     const now = Date.now()
+    const newId = shortid.generate()
+    lastId = newId
     const newFile = {
-      [shortid.generate()]: {
+      [newId]: {
         name,
         folder,
         createdAt: now,
@@ -28,7 +34,14 @@ const mutations = {
     state.lists = { ...state.lists, ...newFile }
   },
   SELECT (state, { id }) {
-    state.selected = id
+    if (id === true) {
+      state.selected = lastId
+    } else {
+      state.selected = id
+    }
+  },
+  UNSELECT (state) {
+    state.selected = null
   },
   CHANGE_CONTENT (state, { id, content }) {
     state.lists[id].content = content

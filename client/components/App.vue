@@ -1,8 +1,29 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <header-app />
+    <div class="page">
+      <folder-list />
+      <file-list />
+      <editor />
+    </div>
   </div>
 </template>
+
+<script>
+import FolderList from './FolderList'
+import FileList from './FileList'
+import Editor from './Editor'
+import HeaderApp from './Header'
+
+export default {
+  components: {
+    FolderList,
+    FileList,
+    Editor,
+    HeaderApp
+  }
+}
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:500,500i,700,700i');
@@ -19,4 +40,13 @@ body {
     transition: all .1s;
   }
 }
+.page {
+  height: calc(100vh - 51px);
+  width: 100%;
+  background: #fff;
+  display: flex;
+  align-items: stretch;
+}
 </style>
+
+

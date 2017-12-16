@@ -1,18 +1,20 @@
 <template>
   <div class="editor">
-    <div class="editor-wrapper">
+    <div
+      v-show="isAnyFileSelected"
+      class="editor-wrapper"
+    >
       <input
         class="editor-title"
         placeholder="Title"
         v-model="fileName"
       >
       <textarea
-        ref='textarea'
+        ref="textarea"
         class="editor-textarea"
         placeholder="Start writing..."
         v-model="contentOfSelected"
-      >
-      </textarea>
+      />
     </div>
   </div>
 </template>
@@ -20,27 +22,49 @@
 <script>
 import autosize from 'autosize'
 
+let prevId = null
+
 export default {
   mounted () {
     autosize(this.$refs.textarea)
   },
+  watch: {
+    fileId (val, oldVal) {
+      if (val !== oldVal) {
+        this.$nextTick(() => {
+          this.textAreaResize()
+        })
+        // setTimeout(() => {
+        // }, 10);
+      }
+    }
+  },
   computed: {
+    fileId () {
+      return this.$store.state.files.selected
+    },
     fileName: {
       get () {
         const { lists, selected } = this.$store.state.files
-        return lists[selected].name
+        if (lists[selected]) {
+          return lists[selected].name
+        }
+        return ''
       },
       set (newValue) {
         this.$store.commit('files/CHANGE_TITLE', {
           id: this.$store.state.files.selected,
           name: newValue
         })
-      }
+      },
     },
     contentOfSelected: {
       get () {
         const { lists, selected } = this.$store.state.files
-        return lists[selected].content
+        if (lists[selected]) {
+          return lists[selected].content
+        }
+        return ''
       },
       set (newValue) {
         this.$store.commit('files/CHANGE_CONTENT', {
@@ -48,6 +72,14 @@ export default {
           content: newValue
         })
       }
+    },
+    isAnyFileSelected () {
+      return this.$store.state.files.selected !== null
+    }
+  },
+  methods: {
+    textAreaResize () {
+      autosize.update(this.$refs.textarea)
     }
   }
 }

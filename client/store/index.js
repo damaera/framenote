@@ -2,16 +2,17 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
-import folders from './folders'
 import files from './files'
+import folders from './folders'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  plugins: [createPersistedState()],
+  // plugins: [createPersistedState()],
   modules: {
-    folders,
-    files
+
+    files,
+    folders
   }
 })
 
