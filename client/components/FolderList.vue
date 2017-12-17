@@ -2,70 +2,40 @@
   <div
     class="folder-container"
     @click="clickOutside"
-  >
+  > 
     <div class="folder-header">
-      Folder
+      Folder 
     </div>
     <div>
       <div
         v-for="(value, id) in lists"
         :key="id"
       >
-        <div
-          class="folder-item"
-          :class="{ selected: id === selected }"
-          @click="(e) => folderClick(id)"
-        >
-          <div class="folder-item-title">
-            {{ selected === id ? '🗁' : '🖿' }} {{ value.name }}
-          </div>
-        </div>
-      </div>
-
-      <div
-        v-if="!newFolderClicked"
-        class="folder-add"
-        @click="toggleClick"
-      >
-        + New folder
-      </div>
-      <div
-        v-if="newFolderClicked"
-        class="folder-add-input"
-      >
-        <form @submit="submitNewFolder">
-          <input
-            type="text"
-            @blur="newFolderBlur"
-            placeholder="Folder Name..."
-            ref="inputFolder"
-            v-model="newFolderName"
-          >
-          <input
-            type="submit"
-            class="input-submit"
-          >
-        </form>
+        <folder-item
+          :folderData="value"
+          :folderId="id"
+        />
       </div>
     </div>
+    <item-add
+      input-type="folders"
+    />
   </div>
 </template>
 
 <script>
+import ItemAdd from './ItemAdd'
+import FolderItem from './FolderItem'
+
 export default {
-  data: () => {
-    return {
-      newFolderClicked: false,
-      newFolderName: '',
-    }
+  components: {
+    ItemAdd,
+    FolderItem
   },
   computed: {
     lists () {
       const folderLists = this.$store.state.folders.lists
       return folderLists
-    },
-    selected () {
-      return this.$store.state.folders.selected
     },
     anyFileSelected () {
       const { selected } = this.$store.state.files
@@ -73,32 +43,6 @@ export default {
     },
   },
   methods: {
-    submitNewFolder (e) {
-      e.preventDefault();
-      this.$store.commit('folders/CREATE', { name: this.newFolderName })
-      this.$nextTick(() => {
-        this.newFolderClicked = false
-      })
-      this.toggleClick()
-      this.$store.commit('folders/SELECT', { id: true })
-    },
-    toggleClick () {
-      this.newFolderClicked = !this.newFolderClicked
-      this.$nextTick(() => {
-        if (this.newFolderClicked === true) {
-          this.$refs.inputFolder.focus()
-        } else {
-          this.$refs.inputFolder.blur()
-        }
-      })
-    },
-    folderClick (id) {
-      this.$store.commit('folders/SELECT', { id })
-    },
-    newFolderBlur () {
-      this.toggleClick()
-      this.newFolderName = ''
-    },
     clickOutside (e) {
       if (e.target.classList.contains('folder-container')) {
         this.$store.commit('folders/UNSELECT')
@@ -111,7 +55,7 @@ export default {
 
 <style>
 .folder-container {
-  max-width: 240px;
+  max-width: 200px;
   min-width: 200px;
   background: #F1F4F9;
   border-right: solid 1px rgba(0,0,0, .05);
@@ -120,42 +64,6 @@ export default {
 .folder-header {
   padding: 15px 10px;
   border-bottom: solid 1px rgba(0,0,0, .05);
-}
-
-.folder-add-input {
-  border-bottom: solid 2px #0099cc;
-  padding: 15px 10px;
-  font-size: 1em;
-  input {
-    background: none;
-    border: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
-    font-family: inherit;
-    font-size: 1em;
-    font-weight: bold;
-  }
-  &:hover {
-    opacity: .8;
-    background: #F8FAFC;
-  }
-}
-
-.input-submit {
-  display: none;
-}
-
-.folder-add {
-  padding: 15px 10px;
-  border-bottom: solid 2px rgba(0,0,0, .05);
-  font-weight: bold;
-  color: #0099cc;
-  cursor: pointer;
-  &:hover {
-    opacity: .8;
-    background: #F8FAFC;
-  }
 }
 
 .folder-item {

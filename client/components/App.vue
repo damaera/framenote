@@ -41,7 +41,7 @@ body {
   }
 }
 .page {
-  height: calc(100vh - 51px);
+  height: calc(100vh - 31px);
   width: 100%;
   background: #fff;
   display: flex;

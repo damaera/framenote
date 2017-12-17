@@ -1,22 +1,6 @@
 import shortid from 'shortid'
 
-// const newId1 = 'folder1'
-// const newId2 = 'asdqwe1'
-
 const state = {
-  // lists: {
-  //   [newId1]: {
-  //     name: 'Folder1',
-  //     createdAt: Date.now(),
-  //     updatedAt: Date.now()
-  //   },
-  //   [newId2]: {
-  //     name: 'Folder2',
-  //     createdAt: Date.now(),
-  //     updatedAt: Date.now()
-  //   }
-  // },
-  // selected: newId1
   lists: {},
   selected: null
 }

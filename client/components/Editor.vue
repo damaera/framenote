@@ -9,6 +9,7 @@
         placeholder="Title"
         v-model="fileName"
       >
+      <!-- <content-editable /> -->
       <textarea
         ref="textarea"
         class="editor-textarea"
@@ -22,11 +23,14 @@
 <script>
 import autosize from 'autosize'
 
-let prevId = null
+// import ContentEditable from './ContentEditable'
 
 export default {
   mounted () {
     autosize(this.$refs.textarea)
+  },
+  components: {
+    // ContentEditable
   },
   watch: {
     fileId (val, oldVal) {
@@ -80,6 +84,7 @@ export default {
   methods: {
     textAreaResize () {
       autosize.update(this.$refs.textarea)
+      this.$refs.textarea.focus()
     }
   }
 }

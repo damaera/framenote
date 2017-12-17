@@ -1,18 +1,8 @@
 import shortid from 'shortid'
 
 const state = {
-  // lists: {
-  //   asdqwe1: {
-  //     name: 'File1',
-  //     createdAt: Date.now(),
-  //     updatedAt: Date.now(),
-  //     content: '',
-  //     folder: 'folder1'
-  //   }
-  // },
-  // selected: 'asdqwe1'
   lists: {},
-  selected: null,
+  selected: null
 }
 
 let lastId = null
