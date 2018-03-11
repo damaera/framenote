@@ -8,9 +8,8 @@ import folders from './folders'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  // plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
   modules: {
-
     files,
     folders
   }
