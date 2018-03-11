@@ -65,26 +65,4 @@ export default {
   padding: 15px 10px;
   border-bottom: solid 1px rgba(0,0,0, .05);
 }
-
-.folder-item {
-  padding: 15px 10px;
-  cursor: pointer;
-  border-bottom: solid 1px rgba(0,0,0, .05);
-  &:hover {
-    /* opacity: .8; */
-    background: #F8FAFC;
-  }
-  &.selected {
-    /* box-shadow: 0 0 1px #0099CC; */
-    background: #F8FAFC;
-    color: #E46D69;
-  }
-}
-.folder-item-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-.folder-item-desc {
-  font-size: .8em;
-}
 </style>
