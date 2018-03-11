@@ -25,7 +25,11 @@ const mutations = {
     state.lists[id].name = newName
   },
   DELETE (state, { id }) {
-    delete state.lists[id]
+    const { lists } = state
+    delete lists[id]
+    state.lists = {
+      ...lists
+    }
   },
   SELECT (state, { id }) {
     if (id === true) {

@@ -34,16 +34,37 @@ const mutations = {
     state.selected = null
   },
   CHANGE_CONTENT (state, { id, content }) {
+    const now = Date.now()
     state.lists[id].content = content
+    state.lists[id].updatedAt = now
   },
   CHANGE_TITLE (state, { id, name }) {
+    const now = Date.now()
     state.lists[id].name = name
+    state.lists[id].updatedAt = now
+  },
+  MOVE_TO_FOLDER (state, { id, folder }) {
+    const now = Date.now()
+    state.lists[id].folder = folder
+    state.lists[id].updatedAt = now
+  },
+  DELETE (state, { id }) {
+    const { lists } = state
+    delete lists[id]
+    state.lists = {
+      ...lists
+    }
   }
 }
 
 const getters = {
   // fileSelected () {
   //   return this.$store.state.files.selected
+  // }
+  // fileInFolder: (state) => (folderId) => {
+  //   console.log()
+  //   return state.lists.
+    
   // }
 }
 
