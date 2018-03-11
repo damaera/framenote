@@ -5,12 +5,14 @@
       class="editor-wrapper"
     >
       <input
-        class="editor-title"
+        id="file-title"
         placeholder="Title"
         v-model="fileName"
+        class="editor-title"
       >
       <!-- <content-editable /> -->
       <textarea
+        id="file-content"
         ref="textarea"
         class="editor-textarea"
         placeholder="Start writing..."

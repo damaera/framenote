@@ -37,7 +37,7 @@ body {
   background: #F8FAFC;
 
   * {
-    transition: all .1s;
+    /* transition: all .1s; */
   }
 }
 .page {
