@@ -5,8 +5,13 @@
     @click="clickOutside"
   >
     <!-- header -->
-    <div class="file-header">
-      {{ folderSelected.name }} / 
+    <div style="color: #E46D69">
+      &nbsp;▶ <input
+        id="folder-title"
+        placeholder="Folder Title"
+        v-model="folderName"
+        class="folder-title"
+      >
     </div>
 
     <!-- lists -->
@@ -53,7 +58,22 @@ export default {
     fileListsSelected () {
       const { selected } = this.$store.state.folders
       return this.$store.state.files.lists
-    }
+    },
+    folderName: {
+      get () {
+        const { lists, selected } = this.$store.state.folders
+        if (lists[selected]) {
+          return lists[selected].name
+        }
+        return ''
+      },
+      set (newValue) {
+        this.$store.commit('folders/RENAME', {
+          id: this.$store.state.folders.selected,
+          newName: newValue
+        })
+      },
+    },
   },
   methods: {
     clickOutside (e) {
@@ -81,5 +101,18 @@ export default {
   padding: 15px 10px;
   border-bottom: solid 1px rgba(0,0,0, .05);
   font-weight: bold;
+}
+
+.folder-title {
+  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
+  padding: 15px 0; 
+  border: none;
+  font-size: 1em;
+  outline: none;
+  background: #F8FAFC;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: solid 1px rgba(0,0,0, .05);
 }
 </style>
