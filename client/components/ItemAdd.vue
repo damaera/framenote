@@ -5,18 +5,19 @@
       class="item-add"
       @click="onToggleClick"
     >
-      + New file
+      + {{ textNew }}
     </div>
     <div
       v-if="isClicked"
       class="item-add-input"
     >
       <form @submit="onSubmit">
+        <span>+ </span>
         <input
           type="text"
           @blur="onBlur"
-          placeholder="New..."
-          ref="inputName"
+          :placeholder="textNew"
+          :ref="'input' + inputType"
           v-model="inputName"
         >
         <input
@@ -39,14 +40,24 @@ export default  {
   props: {
     inputType: String,
   },
+  computed: {
+    textNew () {
+      if (this.inputType === 'files') {
+        return 'New File'
+      } else {
+        return 'New Folder'
+      }
+    }
+  },
   methods: {
     onToggleClick () {
       this.isClicked = !this.isClicked
       this.$nextTick(() => {
+        const inputRef = this.$refs['input' + this.inputType]
         if (this.isClicked === true) {
-          this.$refs.inputName.focus()
+          inputRef.focus()
         } else {
-          this.$refs.inputName.blur()
+          inputRef.blur()
         }
       })
     },
@@ -96,6 +107,8 @@ export default  {
     font-family: inherit;
     font-size: 1em;
     font-weight: bold;
+    display: inline-block;
+    width: 150px;
   }
   &:hover {
     opacity: .8;
@@ -104,7 +117,7 @@ export default  {
 }
 
 .input-submit {
-  display: none;
+  display: none !important;
 }
 
 .item-add {
