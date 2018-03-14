@@ -1,4 +1,21 @@
-# framenote
+# Framenote
+
+
+
+Framenote is minimal, distraction-free writing app.
+You can try it in https://framenote.netlify.com
+
+If you writing something in an editor like Google docs or Dropbox Paper it just limited for editing just one document per browser tab. Framenote can edit two or more documents and folders within one tab.
+
+## Requirement
+- `nodejs` lastest
+
+## Install
+clone this repository
+```
+git clone https://github.com/damaera/framenote
+cd framenote
+```
 
 To start:
 
@@ -9,7 +26,8 @@ $ npm install
 To develop:
 
 ```bash
-$ npm run dev```
+$ npm run dev
+```
 
 To build for production:
 
